@@ -1,10 +1,12 @@
-#Insurance Quotation Service 
+# Insurance Quotation Service
+API REST for receiving and querying insurance quotes
 
-#Project Anatomy
+# Project Anatomy
 
 API Architecture Style: Hexagonal Architecture
 
-Adapters(Ports)
+Adapters (Ports):
+
 In (REST)
 - InsuranceQuoteController
 
@@ -16,3 +18,9 @@ Out (Persistence)
 
 Application Inbound Port:
 - InsuranceQuotationUseCase
+
+Application Domain:
+- InsuranceQuote
+- Offer
+
+
