@@ -1,11 +1,14 @@
 package com.acme.insurancequote.service;
 
+import com.acme.insurancequote.adapters.out.broker.OutboundBroker;
 import com.acme.insurancequote.adapters.out.persistance.InsuranceQuoteRepository;
 import com.acme.insurancequote.application.domain.dto.OfferDTO;
 import com.acme.insurancequote.application.ports.inbound.InsuranceQuotationUseCase;
 import com.acme.insurancequote.facade.CatalogFacade;
 import com.acme.insurancequote.service.exceptions.LibBusinessException;
 import com.acme.insurancequote.application.domain.InsuranceQuote;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,18 +18,30 @@ import java.util.Map;
 @Transactional
 public class InsuranceQuoteService implements InsuranceQuotationUseCase {
 
+    private static final Logger log = LoggerFactory.getLogger(InsuranceQuoteService.class);
+
     private final CatalogFacade catalogFacade;
     private final InsuranceQuoteRepository insuranceQuoteRepository;
+    private final OutboundBroker outboundBroker;
 
-    public InsuranceQuoteService(CatalogFacade catalogFacade, InsuranceQuoteRepository insuranceQuoteRepository) {
+    public InsuranceQuoteService(CatalogFacade catalogFacade, InsuranceQuoteRepository insuranceQuoteRepository, OutboundBroker outboundBroker) {
         this.catalogFacade = catalogFacade;
         this.insuranceQuoteRepository = insuranceQuoteRepository;
+        this.outboundBroker = outboundBroker;
     }
 
     @Override
     public InsuranceQuote postInsuranceQuotation(InsuranceQuote insuranceQuote) throws Exception {
         validate(insuranceQuote);
         var insuranceQuotation = insuranceQuoteRepository.save(insuranceQuote);
+
+        try{
+            outboundBroker.sendInsurancePolicyReceived(insuranceQuotation.toString());
+        }
+        catch (Exception ex){
+            log.error("Erro ao publicar a mensagem {}. Erro de envio: {}. "+ insuranceQuotation.toString(), ex.getMessage());
+        }
+
         return insuranceQuotation;
     }
 
