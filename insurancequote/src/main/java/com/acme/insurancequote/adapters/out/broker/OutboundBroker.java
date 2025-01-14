@@ -17,11 +17,11 @@ public class OutboundBroker {
     @Value("${aws-sqs-localhost}")
     private String queueUrl;
 
-    @Value("${outbound.queue.name}")
-    private String outboundQueueName;
+    @Value("${outbound.insurance-policy-received}")
+    private String insurancePolicyReceived;
 
     public void sendInsurancePolicyReceived(String message) throws Exception {
-        var SQS = queueUrl + "/000000000000/" + outboundQueueName;
+        var SQS = queueUrl + "/000000000000/" + insurancePolicyReceived;
         sqsTemplate.send(SQS, message);
         log.info("Mensagem enviada para a fila de policies. Payload: {}", message);
     }

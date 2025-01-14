@@ -2,8 +2,10 @@ package com.acme.insurancequote.service;
 
 import com.acme.insurancequote.adapters.out.broker.OutboundBroker;
 import com.acme.insurancequote.adapters.out.persistance.InsuranceQuoteRepository;
+import com.acme.insurancequote.application.domain.InsurancePolicy;
 import com.acme.insurancequote.application.domain.dto.OfferDTO;
 import com.acme.insurancequote.application.ports.inbound.InsuranceQuotationUseCase;
+import com.acme.insurancequote.application.ports.inbound.UpdateInsuranceQuotePolicy;
 import com.acme.insurancequote.facade.CatalogFacade;
 import com.acme.insurancequote.service.exceptions.LibBusinessException;
 import com.acme.insurancequote.application.domain.InsuranceQuote;
@@ -12,11 +14,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
 import java.util.Map;
 
 @Service
 @Transactional
-public class InsuranceQuoteService implements InsuranceQuotationUseCase {
+public class InsuranceQuoteService implements InsuranceQuotationUseCase, UpdateInsuranceQuotePolicy {
 
     private static final Logger log = LoggerFactory.getLogger(InsuranceQuoteService.class);
 
@@ -58,6 +61,16 @@ public class InsuranceQuoteService implements InsuranceQuotationUseCase {
             if (coverageRequested.getValue() > valueFromOfferCoverage) {
                 throw new LibBusinessException("0002", "Value from coverage " + coverageRequested.getKey() + " is greater than value allowed.");
             }
+        }
+    }
+
+    @Override
+    public void updateInsuranceQuotePolicy(InsurancePolicy insurancePolicy) {
+        var insuranceQuoteFromBase = insuranceQuoteRepository.findById(insurancePolicy.getInsuranceQuoteId());
+        if (insuranceQuoteFromBase.isPresent()){
+            insuranceQuoteFromBase.get().setInsurancePolicyId(insurancePolicy.getInsurancePolicyId());
+            insuranceQuoteRepository.save(insuranceQuoteFromBase.get());
+            log.info("Apólice do seguro atualizada no horário: {}", Instant.now());
         }
     }
 }
