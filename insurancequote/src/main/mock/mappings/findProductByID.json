@@ -1,0 +1,14 @@
+{
+  "request": {
+    "method": "GET",
+    "urlPathPattern": "/api/catalog/product/([0-9]*)"
+  },
+  "response": {
+    "status": 200,
+    "bodyFileName": "findProductByID.json",
+    "headers": {
+      "Content-Type": "application/json;charset=UTF-8",
+      "Server": "wiremock"
+    }
+  }
+}
