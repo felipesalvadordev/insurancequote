@@ -3,7 +3,7 @@ API REST for receiving and querying insurance quotes.
 
 # About the project
 
-Project use some 12 FactorApp (https://12factor.net/pt_br/).  
+Project use the 12 FactorApp rule about config storage (https://12factor.net/pt_br/config).  
 All configuration data are stored in yml files, properties and shell scripts. None in the base code.  
 
 The project uses the following technologies:  
