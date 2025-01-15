@@ -3,8 +3,13 @@ server:
 
 
 integration:
-  catalog-service:
+  catalog-offering-service:
     protocol: http
     hostname: localhost
     port: 8088
     path: api/catalog/offering
+  catalog-product-service:
+    protocol: http
+    hostname: localhost
+    port: 8088
+    path: api/catalog/product

@@ -4,6 +4,7 @@ import com.acme.insurancequote.adapters.out.broker.OutboundBroker;
 import com.acme.insurancequote.adapters.out.persistance.InsuranceQuoteRepository;
 import com.acme.insurancequote.application.domain.InsurancePolicy;
 import com.acme.insurancequote.application.domain.dto.OfferDTO;
+import com.acme.insurancequote.application.domain.dto.ProductDTO;
 import com.acme.insurancequote.application.ports.inbound.InsuranceQuotationUseCase;
 import com.acme.insurancequote.application.ports.inbound.UpdateInsuranceQuotePolicy;
 import com.acme.insurancequote.facade.CatalogFacade;
@@ -49,19 +50,32 @@ public class InsuranceQuoteService implements InsuranceQuotationUseCase, UpdateI
     }
 
     private void validate(InsuranceQuote insuranceQuote){
+        validateInsuranceQuoteOffer(insuranceQuote.getOfferId(), insuranceQuote.getCoverages());
+        validateInsuranceQuoteProduct(insuranceQuote.getProductId());
+    }
 
-        OfferDTO catalogOfferDTO = catalogFacade.getOffering(insuranceQuote.getOfferId());
+    private void validateInsuranceQuoteOffer(String offerID, Map<String, Long> insuranceQuoteCoverages){
+        OfferDTO catalogOffer = catalogFacade.getOffering(offerID);
 
-        for (Map.Entry<String, Long> coverageRequested : insuranceQuote.getCoverages().entrySet()) {
-            if (catalogOfferDTO.getCoverages()!= null && !catalogOfferDTO.getCoverages().containsKey(coverageRequested.getKey()))
-                throw new LibBusinessException("0001", "Coverage " + coverageRequested.getKey() + " not allowed for this offer.");
+        if (!catalogOffer.getActive())
+            throw new LibBusinessException("0001", "Offer is no longer active");
 
-            var valueFromOfferCoverage = catalogOfferDTO.getCoverages().get(coverageRequested.getKey());
+        for (Map.Entry<String, Long> coverageRequested : insuranceQuoteCoverages.entrySet()) {
+            if (catalogOffer.getCoverages()!= null && !catalogOffer.getCoverages().containsKey(coverageRequested.getKey()))
+                throw new LibBusinessException("0002", "Coverage " + coverageRequested.getKey() + " not allowed for this offer.");
 
-            if (coverageRequested.getValue() > valueFromOfferCoverage) {
-                throw new LibBusinessException("0002", "Value from coverage " + coverageRequested.getKey() + " is greater than value allowed.");
-            }
+            var valueFromOfferCoverage = catalogOffer.getCoverages().get(coverageRequested.getKey());
+
+            if (coverageRequested.getValue() > valueFromOfferCoverage)
+                throw new LibBusinessException("0003", "Value from coverage " + coverageRequested.getKey() + " is greater than value allowed.");
         }
+    }
+
+    private void validateInsuranceQuoteProduct(String productID){
+        ProductDTO catalogProduct = catalogFacade.getProduct(productID);
+
+        if (!catalogProduct.getActive())
+            throw new LibBusinessException("0004", "Product is no longer active");
     }
 
     @Override

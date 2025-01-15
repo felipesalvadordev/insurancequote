@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration;
 
 
 @Configuration
-public class CatalogIntegrationConfig {
+public class CatalogProductIntegrationConfig {
 
     private final String protocol;
     private final String hostName;
@@ -14,10 +14,10 @@ public class CatalogIntegrationConfig {
     private final String path;
 
     @Autowired
-    public CatalogIntegrationConfig(@Value("${integration.catalog-service.protocol}") String protocol,
-                                   @Value("${integration.catalog-service.hostname}") String hostname,
-                                   @Value("${integration.catalog-service.port}") String port,
-                                   @Value("${integration.catalog-service.path}") String path) {
+    public CatalogProductIntegrationConfig(@Value("${integration.catalog-product-service.protocol}") String protocol,
+                                           @Value("${integration.catalog-product-service.hostname}") String hostname,
+                                           @Value("${integration.catalog-product-service.port}") String port,
+                                           @Value("${integration.catalog-product-service.path}") String path) {
         this.hostName = hostname;
         this.protocol = protocol;
         this.port = port;

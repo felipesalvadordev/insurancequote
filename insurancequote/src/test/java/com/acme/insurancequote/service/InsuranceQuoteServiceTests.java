@@ -39,7 +39,7 @@ public class InsuranceQuoteServiceTests {
 
         //Act
         LibBusinessException internalError = assertThrows(LibBusinessException.class, () -> {
-            insuranceQuoteService.getInsuranceQuotation(insuranceQuote);
+            insuranceQuoteService.postInsuranceQuotation(insuranceQuote);
         });
         //Assert
         assertEquals("Coverage Garantia de Vida not allowed for this offer.", internalError.getErrorMessage());

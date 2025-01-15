@@ -2,18 +2,19 @@ package com.acme.insurancequote.application.domain.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.io.Serializable;
 import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 
-public class OfferDTO implements Serializable {
+public class OfferDTO {
     @JsonProperty("id")
     private String id;
     @JsonProperty("product_id")
     private String productId;
     @JsonProperty("created_at")
     private Instant createdAt;
+    @JsonProperty("active")
+    private Boolean active;
     @JsonProperty("coverages")
     private Map<String, Long> coverages;
     @JsonProperty("assistances")
@@ -44,6 +45,10 @@ public class OfferDTO implements Serializable {
     public void setCreatedAt(Instant createdAt) {
         this.createdAt = createdAt;
     }
+
+    public Boolean getActive() {return active;}
+
+    public void setActive(Boolean active) {this.active = active;}
 
     public Map<String, Long> getCoverages() {
         return coverages;

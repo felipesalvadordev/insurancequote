@@ -2,7 +2,8 @@ package com.acme.insurancequote.facade;
 
 import com.acme.insurancequote.application.domain.dto.OfferDTO;
 import com.acme.insurancequote.application.domain.dto.ProductDTO;
-import com.acme.insurancequote.facade.config.CatalogIntegrationConfig;
+import com.acme.insurancequote.facade.config.CatalogOfferingIntegrationConfig;
+import com.acme.insurancequote.facade.config.CatalogProductIntegrationConfig;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -14,18 +15,20 @@ import java.util.Objects;
 @Service
 public class CatalogFacade {
 
-    private final CatalogIntegrationConfig urlConfig;
+    private final CatalogOfferingIntegrationConfig catalogOfferingIntegrationConfig;
+    private final CatalogProductIntegrationConfig catalogProductIntegrationConfig;
     private final RestTemplate restTemplate;
 
-    public CatalogFacade(CatalogIntegrationConfig urlConfig, RestTemplate restTemplate) {
-        this.urlConfig = urlConfig;
+    public CatalogFacade(CatalogOfferingIntegrationConfig catalogOfferingIntegrationConfig, CatalogProductIntegrationConfig catalogProductIntegrationConfig, RestTemplate restTemplate) {
+        this.catalogOfferingIntegrationConfig = catalogOfferingIntegrationConfig;
+        this.catalogProductIntegrationConfig = catalogProductIntegrationConfig;
         this.restTemplate = restTemplate;
     }
 
     public OfferDTO getOffering(String offeringID) {
         try {
 
-            var builder = UriComponentsBuilder.fromHttpUrl(this.urlConfig.buildURL())
+            var builder = UriComponentsBuilder.fromHttpUrl(this.catalogOfferingIntegrationConfig.buildURL())
                         .path("/{id}")
                         .buildAndExpand(offeringID);
 
@@ -43,9 +46,9 @@ public class CatalogFacade {
     public ProductDTO getProduct(String productID) {
         try {
 
-            UriComponentsBuilder builder = UriComponentsBuilder
-                    .fromUriString(this.urlConfig.buildURL())
-                    .queryParam("id", productID);
+            var builder = UriComponentsBuilder.fromHttpUrl(this.catalogProductIntegrationConfig.buildURL())
+                    .path("/{id}")
+                    .buildAndExpand(productID);
 
             ResponseEntity<ProductDTO> response = restTemplate
                     .exchange(builder.toUriString(),

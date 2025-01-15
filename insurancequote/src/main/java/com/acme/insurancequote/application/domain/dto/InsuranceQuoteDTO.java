@@ -1,23 +1,37 @@
 package com.acme.insurancequote.application.domain.dto;
 
 import com.acme.insurancequote.application.domain.InsuranceQuote;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class InsuranceQuoteDTO  {
     private String insurancePolicyId;
+
+    @NotNull
+    @NotEmpty
+    @NotBlank
     private String productId;
+    @NotNull
+    @NotEmpty
+    @NotBlank
     private String offerId;
     private String category;
     private Instant createdAt;
     private Instant updatedAt;
     private Long totalMonthlyPremiumAmount;
     private Long totalCoverageAmount;
+    @NotEmpty
+    @NotNull
     private Map<String, Long> coverages;
     private List<String> assistances;
     private InsuranceQuote.Customer customer;
