@@ -28,11 +28,15 @@ public class InsuranceQuoteDTO  {
     private String category;
     private Instant createdAt;
     private Instant updatedAt;
+    @NotNull
     private Long totalMonthlyPremiumAmount;
+    @NotNull
     private Long totalCoverageAmount;
     @NotEmpty
     @NotNull
     private Map<String, Long> coverages;
+    @NotEmpty
+    @NotNull
     private List<String> assistances;
     private InsuranceQuote.Customer customer;
 
