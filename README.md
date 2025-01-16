@@ -1,5 +1,8 @@
 # Insurance Quotation Service
 API REST for receiving and querying insurance quotes.  
+There are two REST operations: 
+- POST/insurance-quotes
+- GET/insurance-quotes/{id}
 
 # About the project
 
