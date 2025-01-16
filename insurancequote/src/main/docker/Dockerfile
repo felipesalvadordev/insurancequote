@@ -1,5 +1,5 @@
 FROM openjdk:17
-WORKDIR /insurancequote
-COPY target/insurancequote-0.0.1-SNAPSHOT.jar insurancequote.jar
+ARG JAR_FILE=target/*.jar
+COPY ${JAR_FILE} insurancequote.jar
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "insurancequote.jar"]
