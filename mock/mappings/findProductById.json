@@ -1,0 +1,14 @@
+{
+  "request": {
+    "method": "GET",
+    "urlPathPattern": "/api/catalog/product/1b2da7cc-b367-4196-8a78-9cfeec21f587"
+  },
+  "response": {
+    "status": 200,
+    "bodyFileName": "findProductById_res.json",
+    "headers": {
+      "Content-Type": "application/json;charset=UTF-8",
+      "Server": "wiremock"
+    }
+  }
+}

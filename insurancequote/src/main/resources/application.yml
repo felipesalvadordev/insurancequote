@@ -1,0 +1,15 @@
+server:
+  port: 8080
+
+
+integration:
+  catalog-offering-service:
+    protocol: http
+    hostname: localhost
+    port: 8088
+    path: api/catalog/offering
+  catalog-product-service:
+    protocol: http
+    hostname: localhost
+    port: 8088
+    path: api/catalog/product

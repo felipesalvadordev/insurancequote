@@ -1,0 +1,14 @@
+{
+  "request": {
+    "method": "GET",
+    "urlPathPattern": "/api/catalog/offering/adc56d77-348c-4bf0-908f-22d402ee715c"
+  },
+  "response": {
+    "status": 200,
+    "bodyFileName": "findOfferingById_res.json",
+    "headers": {
+      "Content-Type": "application/json;charset=UTF-8",
+      "Server": "wiremock"
+    }
+  }
+}
