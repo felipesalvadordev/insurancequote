@@ -23,9 +23,11 @@ docker-compose up
 
 # Implementantion details
 Created using the Hexagonal Architecture with REST inbound port, Broker inbound port and Persistance (Repository) outbound port.  
+Use of commands (inbound port) to access the application rules.  
 Use of DTOs for data transportation, validation and domain security. The domain entity is not exposed.  
 Use of pattern FACADE for external integration. All the external config. is set only in the facade class.  
 Use of a global exception handler to display exceptions more friendly to the user.  
+Use of pattern BUILDER to create reusable objects for tests.  
 Use the 12 FactorApp rule about config storage (https://12factor.net/pt_br/config). All configuration data are stored in yml files, properties and shell scripts. None in the base code.  
 
 # Project Anatomy
