@@ -1,5 +1,5 @@
-FROM openjdk:17
-ARG JAR_FILE=target/*.jar
-COPY ${JAR_FILE} insurancequote.jar
+FROM openjdk:17-jdk-alpine
+WORKDIR /app
+COPY target/*.jar /app/insurancequoteapp.jar
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "insurancequote.jar"]
+CMD ["java", "-jar", "/app/insurancequoteapp.jar"]
