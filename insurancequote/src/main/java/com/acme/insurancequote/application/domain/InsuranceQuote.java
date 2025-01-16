@@ -26,6 +26,16 @@ public class InsuranceQuote {
     private List<String> assistances;
     private Customer customer;
 
+    public boolean validateTotalCoverageAmount(){
+        long sumCoverages = 0L;
+
+        for (var coverage : coverages.entrySet()){
+            sumCoverages = sumCoverages + coverage.getValue();
+        }
+
+        return totalCoverageAmount <= sumCoverages;
+    }
+
     public String getID() {
         return ID;
     }

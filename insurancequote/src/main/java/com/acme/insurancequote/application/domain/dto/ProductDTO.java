@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
 import java.time.Instant;
+import java.util.List;
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class ProductDTO {
@@ -11,6 +12,7 @@ public class ProductDTO {
     private String name;
     private Instant createdAt;
     private Boolean active;
+    private List<String> offers;
 
     public String getId() {
         return id;
@@ -42,5 +44,13 @@ public class ProductDTO {
 
     public void setActive(Boolean active) {
         this.active = active;
+    }
+
+    public List<String> getOffers() {
+        return offers;
+    }
+
+    public void setOffers(List<String> offers) {
+        this.offers = offers;
     }
 }

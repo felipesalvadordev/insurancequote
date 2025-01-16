@@ -1,4 +1,4 @@
-package com.acme.insurancequote.application.domain.dto;
+package com.acme.insurancequote.application.domain.dto.exception;
 
 public class ErrorDetailDTO {
 

@@ -2,8 +2,7 @@ package com.acme.insurancequote.adapters.in.rest;
 
 import com.acme.insurancequote.adapters.out.persistance.InsuranceQuoteRepository;
 import com.acme.insurancequote.application.domain.InsuranceQuote;
-import com.acme.insurancequote.application.domain.dto.ErrorDetailDTO;
-import com.acme.insurancequote.application.domain.dto.ExceptionDTO;
+import com.acme.insurancequote.application.domain.builder.ErrorResponseBuilder;
 import com.acme.insurancequote.application.domain.dto.InsuranceQuoteDTO;
 import com.acme.insurancequote.application.ports.inbound.InsuranceQuotationUseCase;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -15,12 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
-import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
 
 @RestController
 @RequestMapping("/insurance-quotes")
@@ -36,25 +31,8 @@ public class InsuranceQuoteController {
 
     @PostMapping
     public ResponseEntity<?> postInsuranceQuotation(@Validated @Valid @RequestBody InsuranceQuoteDTO insuranceQuoteDTO, BindingResult bindingResult) throws Exception {
-
-        ExceptionDTO exceptionDTO = new ExceptionDTO();
-        exceptionDTO.setDetailDTOList(new ArrayList<>());
         if (bindingResult.hasErrors()){
-            for(ObjectError error : bindingResult.getAllErrors()){
-                ErrorDetailDTO errorDetailDTO = new ErrorDetailDTO();
-                if (error instanceof FieldError fieldError){
-                    errorDetailDTO.setItem(fieldError.getField());
-                }
-                else{
-                    errorDetailDTO.setItem(error.getCode());
-                }
-                errorDetailDTO.setDescription(error.getDefaultMessage());
-                exceptionDTO.getDetailDTOList().add(errorDetailDTO);
-            }
-
-            exceptionDTO.setStatusCode(HttpStatus.BAD_REQUEST);
-            exceptionDTO.setMessage("Foram encontradas validações");
-            return ResponseEntity.badRequest().body(exceptionDTO);
+            return ResponseEntity.badRequest().body(new ErrorResponseBuilder().buildBadRequest(bindingResult));
         }
 
         log.info("Recebeu o payload: {}", insuranceQuoteDTO.toString());

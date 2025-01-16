@@ -1,10 +1,9 @@
 package com.acme.insurancequote.utils;
 
-import com.acme.insurancequote.application.domain.dto.ExceptionDTO;
+import com.acme.insurancequote.application.domain.dto.exception.ExceptionDTO;
 import com.acme.insurancequote.service.exceptions.LibBusinessException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.apache.coyote.BadRequestException;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,8 +11,6 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.HttpServerErrorException;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -43,7 +40,7 @@ public class GlobalExceptionHandler {
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(InternalError.class)
-    public @ResponseBody ExceptionDTO handleInternalError(HttpServletRequest res, Exception ex){
+    public @ResponseBody ExceptionDTO InternalErrorException(HttpServletRequest res, Exception ex){
         return new ExceptionDTO(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
     }
 }

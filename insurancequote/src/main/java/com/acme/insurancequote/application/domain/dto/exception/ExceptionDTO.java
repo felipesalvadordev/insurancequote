@@ -1,4 +1,4 @@
-package com.acme.insurancequote.application.domain.dto;
+package com.acme.insurancequote.application.domain.dto.exception;
 
 import org.springframework.http.HttpStatus;
 

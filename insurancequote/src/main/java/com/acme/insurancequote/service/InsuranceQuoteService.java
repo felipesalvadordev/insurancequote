@@ -50,32 +50,53 @@ public class InsuranceQuoteService implements InsuranceQuotationUseCase, UpdateI
     }
 
     private void validate(InsuranceQuote insuranceQuote){
-        validateInsuranceQuoteOffer(insuranceQuote.getOfferId(), insuranceQuote.getCoverages());
+        validateInsuranceQuoteOffer(insuranceQuote);
         validateInsuranceQuoteProduct(insuranceQuote.getProductId());
     }
 
-    private void validateInsuranceQuoteOffer(String offerID, Map<String, Long> insuranceQuoteCoverages){
-        OfferDTO catalogOffer = catalogFacade.getOffering(offerID);
+    private void validateInsuranceQuoteOffer(InsuranceQuote insuranceQuote){
+        OfferDTO catalogOffer = catalogFacade.getOffering(insuranceQuote.getOfferId());
+
+        if (catalogOffer == null)
+            throw new LibBusinessException("0001", "Offer does not exist.");
 
         if (!catalogOffer.getActive())
-            throw new LibBusinessException("0001", "Offer is no longer active");
+            throw new LibBusinessException("0002", "Offer is no longer active.");
 
-        for (Map.Entry<String, Long> coverageRequested : insuranceQuoteCoverages.entrySet()) {
+        for (Map.Entry<String, Long> coverageRequested : insuranceQuote.getCoverages().entrySet()) {
             if (catalogOffer.getCoverages()!= null && !catalogOffer.getCoverages().containsKey(coverageRequested.getKey()))
-                throw new LibBusinessException("0002", "Coverage " + coverageRequested.getKey() + " not allowed for this offer.");
+                throw new LibBusinessException("0003", "Coverage " + coverageRequested.getKey() + " not allowed for this offer.");
 
             var valueFromOfferCoverage = catalogOffer.getCoverages().get(coverageRequested.getKey());
 
             if (coverageRequested.getValue() > valueFromOfferCoverage)
-                throw new LibBusinessException("0003", "Value from coverage " + coverageRequested.getKey() + " is greater than value allowed.");
+                throw new LibBusinessException("0004", "Value from coverage " + coverageRequested.getKey() + " is greater than value allowed.");
+        }
+
+        if (!insuranceQuote.validateTotalCoverageAmount()){
+            throw new LibBusinessException("0005", "Total coverage Amount out of value limit.");
+        }
+
+        for (String assistanceRequested : insuranceQuote.getAssistances()) {
+            if (catalogOffer.getAssistances()!= null && !catalogOffer.getAssistances().contains(assistanceRequested))
+                throw new LibBusinessException("0006", "Assistance " + assistanceRequested+ " not allowed for this offer.");
+        }
+
+        if (insuranceQuote.getTotalMonthlyPremiumAmount() > 0 && (
+                insuranceQuote.getTotalMonthlyPremiumAmount() < catalogOffer.getMonthlyPremiumAmount().getMinAmount()||
+                insuranceQuote.getTotalMonthlyPremiumAmount() > catalogOffer.getMonthlyPremiumAmount().getMaxAmount())){
+            throw new LibBusinessException("0007", "Total monthly premium amount is not allowed for this offer.");
         }
     }
 
     private void validateInsuranceQuoteProduct(String productID){
         ProductDTO catalogProduct = catalogFacade.getProduct(productID);
 
+        if (catalogProduct == null)
+            throw new LibBusinessException("0008", "Product does not exist.");
+
         if (!catalogProduct.getActive())
-            throw new LibBusinessException("0004", "Product is no longer active");
+            throw new LibBusinessException("0009", "Product is no longer active.");
     }
 
     @Override
