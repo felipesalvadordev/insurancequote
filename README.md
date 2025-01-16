@@ -50,6 +50,5 @@ Application Inbound Port:
 Application Domain:
 - InsuranceQuote
 - InsurancePolicy
-- Offer
 
 
