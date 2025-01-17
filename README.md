@@ -37,7 +37,7 @@ docker-compose up
 
 # Messaging Integration
 When submit a POST, a message will be sent to a third part application using AWS SQS queue.  
-Also the API will can receive a message with the insurance quote ID for a update in database.  
+Also the API can receive a message with the insurance quote ID for a update in database.  
 
 Example of publishing a message using localstack that will be received by the application:
 
