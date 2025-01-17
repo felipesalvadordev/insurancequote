@@ -57,6 +57,9 @@ In (REST)
 In (Broker)
 - InboundBroker
 
+Out (Broker)
+- OutboundBroker
+
 Out (Persistence)
 - InsuranceQuoteRepository
 
