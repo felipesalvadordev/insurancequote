@@ -18,7 +18,7 @@ public class Config
     public SqsAsyncClient sqsAsyncClient() {
 
         return SqsAsyncClient.builder()
-                .endpointOverride(URI.create("http://localhost:4566"))
+                .endpointOverride(URI.create(url))
                 .region(Region.US_EAST_1)
                 .build();
     }
