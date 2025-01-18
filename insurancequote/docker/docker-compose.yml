@@ -1,0 +1,31 @@
+version: '3'
+services:
+  app:
+    container_name: insurancequote
+    image: insurancequoteapp
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mongodb
+      - localstack
+    networks:
+      - app-tier
+  mongodb:
+    image: mongo:latest
+    container_name: "mongodb"
+    ports:
+      - 27070:27017
+    networks:
+      - app-tier
+  localstack:
+    image: localstack/localstack:latest
+    ports:
+      - 4566:4566
+    networks:
+      - app-tier
+    volumes:
+      - /localstack-setup.sh:/etc/localstack/init/ready.d/script.sh
+networks:
+  app-tier:
+    driver: bridge
