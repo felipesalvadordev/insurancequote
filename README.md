@@ -46,11 +46,13 @@ Also the API can receive a message with the insurance policy created for a updat
 
 Example of publishing a message using localstack that will be received by the application:
 
+```bash
 aws --endpoint-url=http://localhost:4566 sqs send-message  --queue-url http://localhost:4566/000000000000/queue-insurance-policy-created  --profile localstack  --message-body '{
 		"insurance_policy_id": "123a492c37e94a61726e8db8",
 		"insurance_quote_id": "678a492c37e94a61726e8db8"
 	}
 }'
+```
 
 # Project Anatomy
 
