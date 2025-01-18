@@ -36,8 +36,13 @@ To run the service infrastructure, access src\main\docker folder using a termina
 docker-compose up
 
 # Messaging Integration
-When submit a POST, a message will be sent to a third part application using AWS SQS queue.  
-Also the API can receive a message with the insurance quote ID for a update in database.  
+### Inbound integration
+- queue-insurance-policy-created (Receive an insurance policy created for an insurance quotation)
+### Outbound integration
+- queue-insurance-policy-received (Post an insurance quote created)
+
+When submit a POST, a message with the last insurance quotation created will be sent to a third part application using AWS SQS queue.  
+Also the API can receive a message with the insurance policy created for a update in database insurance quote entity.  
 
 Example of publishing a message using localstack that will be received by the application:
 
