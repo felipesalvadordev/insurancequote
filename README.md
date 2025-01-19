@@ -29,11 +29,19 @@ Use the 12 FactorApp rule about config storage (https://12factor.net/pt_br/confi
 To execute the APIs integration mock, access mock directory using a terminal and execute:  
 
 docker image build --tag catalog-mocks .  
-docker container run -it --rm -p 8088:8080 --name catalog-mocks catalog-mocks
 
-To run the service infrastructure, access src\main\docker folder using a terminal and execute:  
+Run mvn clean package -DskipTests in the project root to create the jar file.  
+Create application image after:  
+docker build -t insurancequoteapp .
+
+To run the service infrastructure, access src\main\docker folder using and execute:  
 
 docker-compose up
+
+The application will run on 8080.  
+The mongodb container will run on 27017.  
+The localstack container will run on 4566.  
+The wiremock container will run on 8088.
 
 # Messaging Integration
 ### Inbound integration
