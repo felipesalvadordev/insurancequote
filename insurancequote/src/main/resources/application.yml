@@ -1,15 +1,14 @@
 server:
   port: 8080
 
-
 integration:
   catalog-offering-service:
     protocol: http
-    hostname: localhost
+    hostname: host.docker.internal
     port: 8088
     path: api/catalog/offering
   catalog-product-service:
     protocol: http
-    hostname: localhost
+    hostname: host.docker.internal
     port: 8088
     path: api/catalog/product
