@@ -34,7 +34,7 @@ Run mvn clean package -DskipTests in the project root to create the jar file.
 Create application image after:  
 docker build -t insurancequoteapp .
 
-To run the service infrastructure, access src\main\docker folder using and execute:  
+To run the service infrastructure, access src\main\docker folder and execute:  
 
 docker-compose up
 
