@@ -1,5 +1,6 @@
 package com.acme.insurancequote.service;
 
+import com.acme.insurancequote.InsuranceQuoteApplication;
 import com.acme.insurancequote.adapters.out.broker.OutboundBroker;
 import com.acme.insurancequote.adapters.out.persistance.InsuranceQuoteRepository;
 import com.acme.insurancequote.application.domain.InsurancePolicy;
@@ -12,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import java.util.ArrayList;
@@ -23,8 +25,10 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.verify;
 
-@SpringBootTest
+@SpringBootTest(classes = InsuranceQuoteApplication.class)
+@ActiveProfiles("test")
 public class InsuranceQuoteServiceTests {
+
     @MockitoBean
     private CatalogFacade catalogFacade;
 

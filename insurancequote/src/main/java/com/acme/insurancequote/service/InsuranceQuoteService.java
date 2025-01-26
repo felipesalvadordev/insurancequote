@@ -37,6 +37,7 @@ public class InsuranceQuoteService implements InsuranceQuotationUseCase, UpdateI
     @Override
     public InsuranceQuote postInsuranceQuotation(InsuranceQuote insuranceQuote) throws Exception {
         validate(insuranceQuote);
+        insuranceQuote.setCreatedAt(Instant.now());
         var insuranceQuotation = insuranceQuoteRepository.save(insuranceQuote);
 
         try{
@@ -104,6 +105,7 @@ public class InsuranceQuoteService implements InsuranceQuotationUseCase, UpdateI
         var insuranceQuoteFromBase = insuranceQuoteRepository.findById(insurancePolicy.getInsuranceQuoteId());
         if (insuranceQuoteFromBase.isPresent()){
             insuranceQuoteFromBase.get().setInsurancePolicyId(insurancePolicy.getInsurancePolicyId());
+            insuranceQuoteFromBase.get().setUpdatedAt(Instant.now());
             insuranceQuoteRepository.save(insuranceQuoteFromBase.get());
             log.info("Apólice do seguro atualizada no horário: {}", Instant.now());
         }

@@ -1,0 +1,21 @@
+spring:
+  config:
+    activate:
+      on-profile: test
+
+cloud:
+  aws:
+    sqs:
+      enabled: false
+
+integration:
+  catalog-offering-service:
+    protocol: http
+    hostname: host.docker.internal
+    port: 8088
+    path: api/catalog/offering
+  catalog-product-service:
+    protocol: http
+    hostname: host.docker.internal
+    port: 8088
+    path: api/catalog/product
