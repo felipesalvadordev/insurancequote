@@ -11,11 +11,11 @@ cloud:
 integration:
   catalog-offering-service:
     protocol: http
-    hostname: host.docker.internal
+    hostname: localhost
     port: 8088
     path: api/catalog/offering
   catalog-product-service:
     protocol: http
-    hostname: host.docker.internal
+    hostname: localhost
     port: 8088
     path: api/catalog/product
