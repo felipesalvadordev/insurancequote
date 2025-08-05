@@ -4,15 +4,20 @@
 - The service validates data using the Catalog API (acessing a WireMock container via Facade). Offer and product data are validate with the Catalog API data.   
 - New insurance quotes are persisted in MongoDB.  
 - The service sends/receives events via AWS SQS queues for integration with other systems (policy creation notification system).  
-- All queue interactions are locally emulated with LocalStack for dev/testing.  
+- All queue interactions are locally emulated with LocalStack for dev/testing.
+
+| Actor/System                | Interaction Type        | Description                                            |
+|-----------------------------|-------------------------|--------------------------------------------------------|
+| Customer                    | REST API                | Submits and queries insurance quotes                   |
+| Catalog API (Mock)          | HTTP (via Facade)       | Validates offers/products                              |
+| AWS SQS Queues (LocalStack) | Messaging (SQS)         | Sends/receives insurance policy/quotation events       |
+| MongoDB                     | Database                | Stores insurance quote data                            |
+
+# About the project
 
 There are two REST operations: 
 - POST/insurance-quotes
 - GET/insurance-quotes/{id}
-
-The API have inbound/outbount brokers that will send and receive messages from queues.  
-The API will connect in a third part catalog API (a WireMock container) thown a facade
-# About the project
 
 The project uses the following technologies:  
 - Spring Boot Java 17
@@ -124,4 +129,11 @@ curl --location --request POST 'http://localhost:8080/insurance-quotes' \
 }'
 ```
 
+
+| Actor/System                | Interaction Type        | Description                                            |
+|-----------------------------|-------------------------|--------------------------------------------------------|
+| Customer                    | REST API                | Submits and queries insurance quotes                   |
+| Catalog API (Mock)          | HTTP (via Facade)       | Validates offers/products                              |
+| AWS SQS Queues (LocalStack) | Messaging (SQS)         | Sends/receives insurance policy/quotation events       |
+| MongoDB                     | Database                | Stores insurance quote data                            |
 
