@@ -1,10 +1,14 @@
 # Insurance Quotation Service
-API REST for receiving and querying insurance quotes.  
+An API that create insurance quotes request when an offer is submit in the service. 
+The offer contains the product, coverages, assistances, category, total ammounts and customer data.  
+When the insurance quotation is processed, an event will be sent and the API with receive and update the insurance quotation in its database. 
+
 There are two REST operations: 
 - POST/insurance-quotes
 - GET/insurance-quotes/{id}
 
-The API also have inbound/outbount broker messages that will send and receive messages from queues.  
+The API have inbound/outbount brokers that will send and receive messages from queues.  
+The API will connect in a third part catalog API (a WireMock container) thown a facade to validate the insurance offer and product. 
 
 # About the project
 
@@ -49,7 +53,7 @@ The wiremock container will run on 8088.
 ### Outbound integration
 - queue-insurance-policy-received (Post an insurance quote created)
 
-When submit a POST, a message with the last insurance quotation created will be sent to a third part application using AWS SQS queue.  
+When submit a POST, a message with the newest insurance quotation created will be sent to a AWS SQS queue.  
 Also the API can receive a message with the insurance policy created for a update in database insurance quote entity.  
 
 Example of publishing a message using localstack that will be received by the application:
