@@ -1,15 +1,17 @@
 # Insurance Quotation Service
-An API that create insurance quotes request when an offer is submit in the service. 
-The offer contains the product, coverages, assistances, category, total ammounts and customer data.  
-When the insurance quotation is processed, an event will be sent and the API with receive and update the insurance quotation in its database. 
+
+- Customers interact with the Insurance Quotation Service via REST API endpoints.  
+- The service validates data using the Catalog API (acessing a WireMock container via Facade). Offer and product data are validate with the Catalog API data.   
+- New insurance quotes are persisted in MongoDB.  
+- The service sends/receives events via AWS SQS queues for integration with other systems (policy creation notification system).  
+- All queue interactions are locally emulated with LocalStack for dev/testing.  
 
 There are two REST operations: 
 - POST/insurance-quotes
 - GET/insurance-quotes/{id}
 
 The API have inbound/outbount brokers that will send and receive messages from queues.  
-The API will connect in a third part catalog API (a WireMock container) thown a facade to validate the insurance offer and product. 
-
+The API will connect in a third part catalog API (a WireMock container) thown a facade
 # About the project
 
 The project uses the following technologies:  
